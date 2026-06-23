@@ -10,6 +10,7 @@ import it.unicam.cs.mpgc.rpg130723.model.enums.FaseAttivazione;
  * come IncantesimoDanno, IncantesimoTeletrasporto, ecc.
  */
 public abstract class Incantesimo extends Carta {
+
     private final FaseAttivazione fase;
 
     protected Incantesimo(String nome, String descrizione, FaseAttivazione fase) {

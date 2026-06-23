@@ -7,6 +7,7 @@ package it.unicam.cs.mpgc.rpg130723.model;
  * ma solo le sue sottoclassi concrete.
  */
 public abstract class Carta {
+
     private final String nome;
     private final String descrizione;
 

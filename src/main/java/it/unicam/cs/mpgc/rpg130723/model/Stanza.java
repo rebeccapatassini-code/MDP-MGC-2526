@@ -9,6 +9,7 @@ import it.unicam.cs.mpgc.rpg130723.model.enums.TipoTesoro;
  * È astratta perché esistono solo StanzaMostro e StanzaTrappola.
  */
 public abstract class Stanza extends Carta {
+
     private final int valoreDanno;
     private final TipoTesoro tesoroFornito;
 
