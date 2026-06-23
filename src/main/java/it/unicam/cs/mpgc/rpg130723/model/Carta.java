@@ -4,7 +4,7 @@ package it.unicam.cs.mpgc.rpg130723.model;
  * Classe astratta base per tutte le carte del gioco.
  * Contiene gli attributi comuni a ogni carta: nome e descrizione.
  * È astratta perché non ha senso istanziare una "carta generica",
- * ma solo le sue sottoclassi concrete (Stanza, Incantesimo, Boss).
+ * ma solo le sue sottoclassi concrete.
  */
 public abstract class Carta {
 
