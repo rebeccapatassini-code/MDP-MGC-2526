@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130723.model;
+package it.unicam.cs.mpgc.rpg130723.model.personaggi;
 
 import it.unicam.cs.mpgc.rpg130723.model.enums.TipoTesoro;
 import it.unicam.cs.mpgc.rpg130723.interfaces.Danneggiabile;
