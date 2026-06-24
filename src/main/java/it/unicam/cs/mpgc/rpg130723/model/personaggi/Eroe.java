@@ -1,13 +1,14 @@
 package it.unicam.cs.mpgc.rpg130723.model;
 
 import it.unicam.cs.mpgc.rpg130723.model.enums.TipoTesoro;
+import it.unicam.cs.mpgc.rpg130723.interfaces.Danneggiabile;
 
 /**
  * Rappresenta un eroe avventuriero che tenta di attraversare il Dungeon.
  * Ha punti vita, un tipo di tesoro che lo attrae e un valore anima/ferita
  * che determina le conseguenze della sua sopravvivenza o morte.
  */
-public class Eroe {
+public class Eroe implements Danneggiabile{
 
     private final String nome;
     private final TipoTesoro interesse;

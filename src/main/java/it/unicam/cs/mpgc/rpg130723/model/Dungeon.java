@@ -3,6 +3,8 @@ package it.unicam.cs.mpgc.rpg130723.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import it.unicam.cs.mpgc.rpg130723.exception.DungeonPienoException;
+import it.unicam.cs.mpgc.rpg130723.model.carte.Stanza;
 
 /**
  * Rappresenta il Dungeon del Boss.
@@ -23,7 +25,7 @@ public class Dungeon {
         if (stanza == null)
             throw new IllegalArgumentException("La stanza non può essere nulla.");
         if (stanze.size() >= MAX_STANZE)
-            throw new IllegalStateException("Il Dungeon è pieno: massimo " + MAX_STANZE + " stanze.");
+            throw new DungeonPienoException("Impossibile inserire la stanza: hai già raggiunto il limite di 5!");
         stanze.add(stanza);
     }
 

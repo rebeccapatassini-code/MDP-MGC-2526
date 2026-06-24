@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg130723.model;
 
+import it.unicam.cs.mpgc.rpg130723.interfaces.EffettoAttivabile;
 import it.unicam.cs.mpgc.rpg130723.model.enums.TipoTesoro;
 
 /**
@@ -8,7 +9,7 @@ import it.unicam.cs.mpgc.rpg130723.model.enums.TipoTesoro;
  * che serve ad attrarre determinati Eroi.
  * È astratta perché esistono solo StanzaMostro e StanzaTrappola.
  */
-public abstract class Stanza extends Carta {
+public abstract class Stanza extends Carta implements EffettoAttivabile{
 
     private final int valoreDanno;
     private final TipoTesoro tesoroFornito;
