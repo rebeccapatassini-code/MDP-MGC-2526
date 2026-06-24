@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130723.model;
+package it.unicam.cs.mpgc.rpg130723.model.carte;
 
 /**
  * Classe astratta base per tutte le carte del gioco.
