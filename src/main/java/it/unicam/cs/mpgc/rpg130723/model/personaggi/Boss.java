@@ -1,6 +1,7 @@
-package it.unicam.cs.mpgc.rpg130723.model;
+package it.unicam.cs.mpgc.rpg130723.model.personaggi;
 
 import it.unicam.cs.mpgc.rpg130723.interfaces.Danneggiabile;
+import it.unicam.cs.mpgc.rpg130723.model.carte.Carta;
 
 /**
  * Rappresenta il Boss controllato dal giocatore.
