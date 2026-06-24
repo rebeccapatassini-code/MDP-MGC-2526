@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "Sala del Drago",
+    "descrizione": "Un drago antico custodisce questa sala.",
+    "valoreDanno": 3,
+    "tesoroFornito": "RELIQUIA"
+  },
+  {
+    "nome": "Tana del Goblin",
+    "descrizione": "Orde di goblin aggrediscono chiunque entri.",
+    "valoreDanno": 1,
+    "tesoroFornito": "SACCO_DI_MONETE"
+  }
+]

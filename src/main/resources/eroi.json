@@ -1,0 +1,20 @@
+[
+  {
+    "nome": "Guerriero",
+    "puntiVita": 4,
+    "interesse": "SPADA",
+    "valoreAnima": 1
+  },
+  {
+    "nome": "Mago",
+    "puntiVita": 2,
+    "interesse": "LIBRO_MAGICO",
+    "valoreAnima": 1
+  },
+  {
+    "nome": "Ladro",
+    "puntiVita": 3,
+    "interesse": "SACCO_DI_MONETE",
+    "valoreAnima": 1
+  }
+]

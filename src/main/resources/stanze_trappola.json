@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "Corridoio di Lame",
+    "descrizione": "Lame rotanti emergono dalle pareti.",
+    "valoreDanno": 2,
+    "tesoroFornito": "SPADA"
+  },
+  {
+    "nome": "Stanza Avvelenata",
+    "descrizione": "Gas tossici riempiono la stanza.",
+    "valoreDanno": 2,
+    "tesoroFornito": "LIBRO_MAGICO"
+  }
+]
