@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Coordina la sequenza di gioco turno per turno.
  * Gestisce le quattro fasi: Inizio, Costruzione, Richiamo e Avventura.
- * Rispetta SRP: si occupa solo della logica di flusso del gioco,
+ * Si occupa solo della logica di flusso del gioco,
  * non della rappresentazione dei dati né della persistenza.
  */
 public class GameEngine {
@@ -84,7 +84,7 @@ public class GameEngine {
     }
 
     /**
-     * Fase 4: gli eroi attratti attraversano il dungeon da sinistra a destra.
+     * Fase 4: gli eroi attratti attraversano il dungeon.
      * Se l'eroe muore → +1 Anima al Boss.
      * Se l'eroe sopravvive → +1 Ferita al Boss.
      */
@@ -104,9 +104,6 @@ public class GameEngine {
         }
     }
 
-    /**
-     * Controlla se la partita è terminata.
-     */
     public boolean isPartitaFinita() {
         return boss.haVinto() || boss.haPerso();
     }
