@@ -6,8 +6,8 @@ package it.unicam.cs.mpgc.rpg130723.model.enums;
  * l'interesse degli Eroi.
  */
 public enum TipoTesoro {
-    Spada,
-    LibroMagico,
-    Reliquia,
-    SaccoDiMonete
+    SPADA,
+    LIBRO_MAGICO,
+    RELIQUIA,
+    SACCO_DI_MONETE
 }
