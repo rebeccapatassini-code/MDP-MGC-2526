@@ -1,15 +1,15 @@
 # 🎮 BossMind RPG
 
-L'applicazione è un **Gioco di Ruolo di strategia e gestione**, in cui il giocatore assume il ruolo del custode di un complesso sistema di dungeon. L'obiettivo principale è progettare e potenziare un labirinto sotterraneo, popolandolo di mostri e trappole, per intercettare e neutralizzare gli eroi che tentano di esplorarlo.
-Il sistema è strutturato come un **Dungeon Crawler inverso**, dove il ciclo di gioco è coordinato da un motore software modulare che gestisce fasi logiche distinte (Costruzione, Richiamo e Avventura), garantendo una netta separazione tra la logica di dominio e l'esecuzione.
+**BossMind** è un Gioco di Ruolo (RPG) di strategia e gestione strutturato come un **Dungeon Crawler inverso**. Il giocatore assume il ruolo di un Boss, custode di un dungeon, con l'obiettivo di progettare un sistema di stanze e trappole per intercettare ed eliminare gli eroi avventurieri che vogliono attraversarlo.
+Il progetto è focalizzato sulla modularità del codice e sulla separazione tra logica di dominio e persistenza dati, seguendo i principi **SOLID**.
 
 ---
 
 ## 🚀 Come eseguire il progetto
 
 ### Prerequisiti
-- Java 21
-- Gradle
+- Java 21 o superiore
+- Gradle 8.x+
 
 ### Istruzioni
 
@@ -44,7 +44,7 @@ Durante lo sviluppo sono stati utilizzati i seguenti strumenti di AI:
   - Supporto nella strutturazione dei flussi dei test di unità (BattleTest) per verificare la corretta gestione dei danni dell'eroe.
 
 - **NotebookLM** come consulente tecnico per:
-  - Verifica della coerenza con i principi insegnati a lezione
+  - Verifica della coerenza tra l'implementazione e i principi **SOLID** e **Clean Code**.
 
 È importante sottolineare che tutto il codice prodotto è stato 
 **compreso, revisionato e integrato personalmente**. 
