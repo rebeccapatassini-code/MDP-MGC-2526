@@ -46,13 +46,15 @@ public class GameEngine {
      * Fase 1: aggiunge 1 carta casuale alla mano e 2 eroi casuali al villaggio.
      * La carta pescata viene fornita dal DatabaseLoader (OCP).
      */
-    public void faseInizioTurno(Stanza cartaPescata, List<Eroe> nuoviEroi) {
-        if (cartaPescata == null)
-            throw new IllegalArgumentException("La carta pescata non può essere nulla.");
+    public void faseInizioTurno(List<Stanza> cartePescate, List<Eroe> nuoviEroi) {
+        if (cartePescate == null || cartePescate.isEmpty())
+            throw new IllegalArgumentException("Le carte pescate non possono essere nulle.");
         if (nuoviEroi == null || nuoviEroi.size() != EROI_PER_TURNO)
             throw new IllegalArgumentException("Devono arrivare esattamente 2 eroi per turno.");
-        if (mano.size() < MAX_CARTE_MANO)
-            mano.add(cartaPescata);
+        for (Stanza carta : cartePescate) {
+            if (mano.size() < MAX_CARTE_MANO)
+                mano.add(carta);
+        }
         villaggio.addAll(nuoviEroi);
     }
 
@@ -65,7 +67,8 @@ public class GameEngine {
             throw new IllegalArgumentException("Indice carta non valido: " + indiceCarta);
         Stanza scelta = mano.get(indiceCarta);
         dungeon.aggiungiStanza(scelta);
-        mano.clear();
+        mano.remove(indiceCarta);
+        // NON svuotiamo la mano! Le altre carte restano per il turno dopo
     }
 
     /**
@@ -102,6 +105,14 @@ public class GameEngine {
                 boss.subisciFerita();
             }
         }
+    }
+
+    public void faseSostituzione(int indiceCarta, int indiceStanza) {
+        if (indiceCarta < 0 || indiceCarta >= mano.size())
+            throw new IllegalArgumentException("Indice carta non valido.");
+        Stanza scelta = mano.get(indiceCarta);
+        dungeon.sostituisciStanza(indiceStanza, scelta);
+        mano.remove(indiceCarta);
     }
 
     public boolean isPartitaFinita() {
