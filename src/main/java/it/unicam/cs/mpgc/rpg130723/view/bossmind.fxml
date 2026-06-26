@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.unicam.cs.mpgc.rpg130723.view.controller.BossMindController"
+            styleClass="root-pane"
+            stylesheets="@../css/dark-fantasy.css">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TOP: Barra di stato (HP Boss, Anime, Ferite)
+         ═══════════════════════════════════════════════════════════ -->
+    <top>
+        <HBox styleClass="hud-bar" alignment="CENTER" spacing="40">
+            <padding><Insets top="12" bottom="12" left="24" right="24"/></padding>
+
+            <!-- Titolo -->
+            <Label text="⚔ BOSSMIND" styleClass="hud-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Anime -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="💎 ANIME" styleClass="hud-label"/>
+                <Label fx:id="labelAnime" text="0 / 10" styleClass="hud-value-anime"/>
+                <ProgressBar fx:id="progressAnime" progress="0.0"
+                             prefWidth="120" styleClass="progress-anime"/>
+            </HBox>
+
+            <!-- Separatore -->
+            <Separator orientation="VERTICAL" styleClass="hud-separator"/>
+
+            <!-- Ferite -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="🩸 FERITE" styleClass="hud-label"/>
+                <Label fx:id="labelFerite" text="0 / 5" styleClass="hud-value-ferite"/>
+                <ProgressBar fx:id="progressFerite" progress="0.0"
+                             prefWidth="80" styleClass="progress-ferite"/>
+            </HBox>
+
+            <!-- Separatore -->
+            <Separator orientation="VERTICAL" styleClass="hud-separator"/>
+
+            <!-- Fase corrente -->
+            <VBox alignment="CENTER" spacing="2">
+                <Label text="FASE" styleClass="hud-label"/>
+                <Label fx:id="labelFase" text="—" styleClass="hud-fase"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Pulsante Fine Turno -->
+            <Button fx:id="btnFineTurno" text="▶ FINE TURNO"
+                    styleClass="btn-turno" onAction="#onFineTurno"/>
+        </HBox>
+    </top>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         CENTER: Dungeon (5 slot stanze) + Log eventi
+         ═══════════════════════════════════════════════════════════ -->
+    <center>
+        <VBox spacing="16">
+            <padding><Insets top="20" bottom="10" left="30" right="30"/></padding>
+
+            <!-- Titolo sezione dungeon -->
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="🏰 IL TUO DUNGEON" styleClass="section-title"/>
+                <Label fx:id="labelSlotDungeon" text="(0 / 5 stanze)" styleClass="section-subtitle"/>
+            </HBox>
+
+            <!-- Griglia dei 5 slot del dungeon -->
+            <HBox fx:id="dungeonSlotBox" spacing="12" alignment="CENTER">
+
+                <!-- Slot 1 -->
+                <VBox fx:id="slot0" styleClass="dungeon-slot" alignment="CENTER" spacing="6"
+                      onMouseClicked="#onSlotDungeonClicked" userData="0">
+                    <Label fx:id="slotNome0" text="— vuoto —" styleClass="slot-nome"/>
+                    <Label fx:id="slotTipo0" text="" styleClass="slot-tipo"/>
+                    <Label fx:id="slotDanno0" text="" styleClass="slot-danno"/>
+                    <Label fx:id="slotTesoro0" text="" styleClass="slot-tesoro"/>
+                </VBox>
+
+                <!-- Slot 2 -->
+                <VBox fx:id="slot1" styleClass="dungeon-slot" alignment="CENTER" spacing="6"
+                      onMouseClicked="#onSlotDungeonClicked" userData="1">
+                    <Label fx:id="slotNome1" text="— vuoto —" styleClass="slot-nome"/>
+                    <Label fx:id="slotTipo1" text="" styleClass="slot-tipo"/>
+                    <Label fx:id="slotDanno1" text="" styleClass="slot-danno"/>
+                    <Label fx:id="slotTesoro1" text="" styleClass="slot-tesoro"/>
+                </VBox>
+
+                <!-- Slot 3 -->
+                <VBox fx:id="slot2" styleClass="dungeon-slot" alignment="CENTER" spacing="6"
+                      onMouseClicked="#onSlotDungeonClicked" userData="2">
+                    <Label fx:id="slotNome2" text="— vuoto —" styleClass="slot-nome"/>
+                    <Label fx:id="slotTipo2" text="" styleClass="slot-tipo"/>
+                    <Label fx:id="slotDanno2" text="" styleClass="slot-danno"/>
+                    <Label fx:id="slotTesoro2" text="" styleClass="slot-tesoro"/>
+                </VBox>
+
+                <!-- Slot 4 -->
+                <VBox fx:id="slot3" styleClass="dungeon-slot" alignment="CENTER" spacing="6"
+                      onMouseClicked="#onSlotDungeonClicked" userData="3">
+                    <Label fx:id="slotNome3" text="— vuoto —" styleClass="slot-nome"/>
+                    <Label fx:id="slotTipo3" text="" styleClass="slot-tipo"/>
+                    <Label fx:id="slotDanno3" text="" styleClass="slot-danno"/>
+                    <Label fx:id="slotTesoro3" text="" styleClass="slot-tesoro"/>
+                </VBox>
+
+                <!-- Slot 5 -->
+                <VBox fx:id="slot4" styleClass="dungeon-slot" alignment="CENTER" spacing="6"
+                      onMouseClicked="#onSlotDungeonClicked" userData="4">
+                    <Label fx:id="slotNome4" text="— vuoto —" styleClass="slot-nome"/>
+                    <Label fx:id="slotTipo4" text="" styleClass="slot-tipo"/>
+                    <Label fx:id="slotDanno4" text="" styleClass="slot-danno"/>
+                    <Label fx:id="slotTesoro4" text="" styleClass="slot-tesoro"/>
+                </VBox>
+
+            </HBox>
+
+            <!-- Log eventi / messaggi di gioco -->
+            <VBox spacing="6" VBox.vgrow="ALWAYS">
+                <Label text="📜 CRONACA" styleClass="section-title"/>
+                <TextArea fx:id="areaLog" editable="false" wrapText="true"
+                          prefHeight="130" styleClass="log-area"/>
+            </VBox>
+        </VBox>
+    </center>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         BOTTOM: Mano del giocatore (carte Stanza / Incantesimo)
+         ═══════════════════════════════════════════════════════════ -->
+    <bottom>
+        <VBox spacing="8">
+            <padding><Insets top="8" bottom="16" left="30" right="30"/></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="🃏 LA TUA MANO" styleClass="section-title"/>
+                <Label fx:id="labelManoCount" text="(0 carte)" styleClass="section-subtitle"/>
+            </HBox>
+
+            <HBox fx:id="manoBox" spacing="14" alignment="CENTER_LEFT">
+                <!-- Le carte vengono aggiunte dinamicamente dal Controller -->
+            </HBox>
+        </VBox>
+    </bottom>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         RIGHT: Villaggio — eroi in attesa
+         ═══════════════════════════════════════════════════════════ -->
+    <right>
+        <VBox spacing="10" prefWidth="200">
+            <padding><Insets top="20" bottom="20" left="12" right="20"/></padding>
+            <styleClass><String fx:value="villaggio-panel"/></styleClass>
+
+            <Label text="🏘 VILLAGGIO" styleClass="section-title"/>
+            <Label text="Eroi in attesa:" styleClass="section-subtitle"/>
+
+            <ScrollPane fitToWidth="true" styleClass="scroll-eroi" VBox.vgrow="ALWAYS">
+                <VBox fx:id="villaggioBox" spacing="10">
+                    <!-- Le card eroe vengono aggiunte dinamicamente dal Controller -->
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </right>
+
+</BorderPane>

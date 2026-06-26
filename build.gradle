@@ -19,11 +19,17 @@ javafx {
 }
 
 application {
-    mainClass = 'it.unicam.cs.mpgc.rpg130723.Main'
+    mainClass = 'it.unicam.cs.mpgc.rpg130723.MainFX'
 }
 
-run {
-    standardInput = System.in
+// Dice a Gradle di includere anche i file non-Java (fxml, css) da src/main/java
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources', 'src/main/java']
+            excludes = ['**/*.java']
+        }
+    }
 }
 
 repositories {
