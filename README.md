@@ -9,7 +9,7 @@ Il progetto è focalizzato sulla modularità del codice e sulla separazione tra 
 
 ### Prerequisiti
 - Java 25 (LTS)
-- Gradle 8.x+
+- Gradle 9.3
 
 ### Istruzioni
 
