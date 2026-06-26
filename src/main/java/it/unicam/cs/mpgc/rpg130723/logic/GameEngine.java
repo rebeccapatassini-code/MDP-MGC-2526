@@ -44,7 +44,7 @@ public class GameEngine {
 
     /**
      * Fase 1: aggiunge 1 carta casuale alla mano e 2 eroi casuali al villaggio.
-     * La carta pescata viene fornita dal DatabaseLoader (OCP).
+     * La carta pescata viene fornita dal JsonProvider (OCP).
      */
     public void faseInizioTurno(List<Stanza> cartePescate, List<Eroe> nuoviEroi) {
         if (cartePescate == null || cartePescate.isEmpty())

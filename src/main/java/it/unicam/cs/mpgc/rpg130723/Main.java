@@ -5,7 +5,7 @@ import it.unicam.cs.mpgc.rpg130723.model.Dungeon;
 import it.unicam.cs.mpgc.rpg130723.model.carte.Stanza;
 import it.unicam.cs.mpgc.rpg130723.model.personaggi.Boss;
 import it.unicam.cs.mpgc.rpg130723.model.personaggi.Eroe;
-import it.unicam.cs.mpgc.rpg130723.persistence.DatabaseLoader;
+import it.unicam.cs.mpgc.rpg130723.persistence.JsonProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,7 @@ public class Main {
         System.out.println("Accumula 10 Anime prima di subire 5 Ferite!");
         System.out.println();
 
-        DatabaseLoader loader = new DatabaseLoader();
+        JsonProvider loader = new JsonProvider();
         List<Stanza> tutteLeStanze = new ArrayList<>();
         tutteLeStanze.addAll(loader.caricaStanzeMostro());
         tutteLeStanze.addAll(loader.caricaStanzeTrappola());

@@ -16,11 +16,11 @@ import java.util.List;
  * Usa Gson per deserializzare i file in oggetti Java (Aggiungere
  * nuove stanze non richiede modifiche al codice, solo al file JSON).
  */
-public class DatabaseLoader {
+public class JsonProvider {
 
     private final Gson gson;
 
-    public DatabaseLoader() {
+    public JsonProvider() {
         this.gson = new Gson();
     }
 
