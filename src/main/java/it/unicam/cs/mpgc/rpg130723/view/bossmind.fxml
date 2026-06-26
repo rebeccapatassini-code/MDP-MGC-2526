@@ -126,7 +126,7 @@
             <VBox spacing="6" VBox.vgrow="ALWAYS">
                 <Label text="📜 CRONACA" styleClass="section-title"/>
                 <TextArea fx:id="areaLog" editable="false" wrapText="true"
-                          prefHeight="130" styleClass="log-area"/>
+                          prefHeight="330" styleClass="log-area"/>
             </VBox>
         </VBox>
     </center>
@@ -153,9 +153,9 @@
          RIGHT: Villaggio — eroi in attesa
          ═══════════════════════════════════════════════════════════ -->
     <right>
-        <VBox spacing="10" prefWidth="200">
+        <VBox spacing="10" prefWidth="200" styleClass="villaggio-panel">
             <padding><Insets top="20" bottom="20" left="12" right="20"/></padding>
-            <styleClass><String fx:value="villaggio-panel"/></styleClass>
+
 
             <Label text="🏘 VILLAGGIO" styleClass="section-title"/>
             <Label text="Eroi in attesa:" styleClass="section-subtitle"/>

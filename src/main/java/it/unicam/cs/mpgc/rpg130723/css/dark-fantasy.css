@@ -1,0 +1,330 @@
+/* ═══════════════════════════════════════════════════════════════════
+   dark-fantasy.css  —  BossMind RPG  —  Dark Fantasy Theme
+   Posizione: src/main/resources/it/unicam/cs/mpgc/rpg130723/css/
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Palette ───────────────────────────────────────────────────── */
+/* --bg-deep      : #0d0d14   sfondo principale */
+/* --bg-panel     : #16161f   pannelli secondari */
+/* --bg-card      : #1e1e2e   carte / slot       */
+/* --bg-card-h    : #252538   hover carte        */
+/* --accent-gold  : #c9a84c   oro arcano         */
+/* --accent-red   : #b03030   rosso ferita       */
+/* --accent-teal  : #3ab5a0   ciano anima        */
+/* --text-primary : #e8e0d0   testo principale   */
+/* --text-muted   : #7a7090   testo secondario   */
+/* --border-dim   : #2e2e45   bordi sottili      */
+
+/* ─── Root ──────────────────────────────────────────────────────── */
+.root-pane {
+    -fx-background-color: #0d0d14;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+/* ─── HUD Bar (top) ─────────────────────────────────────────────── */
+.hud-bar {
+    -fx-background-color: linear-gradient(to bottom, #1a1a28, #11111c);
+    -fx-border-color: #c9a84c;
+    -fx-border-width: 0 0 2 0;
+    -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.35), 12, 0, 0, 4);
+}
+
+.hud-title {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #c9a84c, 8, 0.4, 0, 0);
+}
+
+.hud-label {
+    -fx-text-fill: #7a7090;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.hud-value-anime {
+    -fx-text-fill: #3ab5a0;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.hud-value-ferite {
+    -fx-text-fill: #b03030;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.hud-fase {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.hud-separator {
+    -fx-background-color: #2e2e45;
+}
+
+/* ─── Progress Bars ─────────────────────────────────────────────── */
+.progress-anime .bar {
+    -fx-background-color: linear-gradient(to right, #1f7a6e, #3ab5a0);
+    -fx-background-radius: 4;
+}
+.progress-anime .track {
+    -fx-background-color: #1a1a28;
+    -fx-background-radius: 4;
+    -fx-border-color: #2e2e45;
+    -fx-border-radius: 4;
+}
+
+.progress-ferite .bar {
+    -fx-background-color: linear-gradient(to right, #6b1515, #b03030);
+    -fx-background-radius: 4;
+}
+.progress-ferite .track {
+    -fx-background-color: #1a1a28;
+    -fx-background-radius: 4;
+    -fx-border-color: #2e2e45;
+    -fx-border-radius: 4;
+}
+
+/* ─── Pulsante Fine Turno ───────────────────────────────────────── */
+.btn-turno {
+    -fx-background-color: linear-gradient(to bottom, #7a3a10, #5a2a08);
+    -fx-text-fill: #e8e0d0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 4;
+    -fx-border-color: #c9a84c;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-turno:hover {
+    -fx-background-color: linear-gradient(to bottom, #9a4a18, #7a3a10);
+    -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.5), 10, 0, 0, 2);
+}
+.btn-turno:pressed {
+    -fx-background-color: #5a2a08;
+}
+.btn-turno:disabled {
+    -fx-opacity: 0.4;
+}
+
+/* ─── Titoli sezioni ────────────────────────────────────────────── */
+.section-title {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.section-subtitle {
+    -fx-text-fill: #7a7090;
+    -fx-font-size: 12px;
+}
+
+/* ─── Slot Dungeon ──────────────────────────────────────────────── */
+.dungeon-slot {
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #2e2e45;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 12;
+    -fx-pref-width: 140;
+    -fx-pref-height: 160;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 8, 0, 0, 3);
+}
+
+.dungeon-slot:hover {
+    -fx-background-color: #252538;
+    -fx-border-color: #c9a84c;
+    -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.3), 12, 0, 0, 2);
+}
+
+/* Slot occupato da una StanzaMostro */
+.dungeon-slot-mostro {
+    -fx-border-color: #8b0000;
+    -fx-background-color: #1e1220;
+}
+.dungeon-slot-mostro:hover {
+    -fx-border-color: #cc3333;
+    -fx-effect: dropshadow(gaussian, rgba(180,30,30,0.4), 12, 0, 0, 2);
+}
+
+/* Slot occupato da una StanzaTrappola */
+.dungeon-slot-trappola {
+    -fx-border-color: #5a4a00;
+    -fx-background-color: #1c1a10;
+}
+.dungeon-slot-trappola:hover {
+    -fx-border-color: #c9a84c;
+    -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.4), 12, 0, 0, 2);
+}
+
+/* Slot selezionato (per sostituzione) */
+.dungeon-slot-selezionato {
+    -fx-border-color: #3ab5a0;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(58,181,160,0.6), 14, 0, 0, 0);
+}
+
+.slot-nome {
+    -fx-text-fill: #e8e0d0;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+.slot-tipo {
+    -fx-font-size: 18px; /* emoji icona tipo */
+}
+
+.slot-danno {
+    -fx-text-fill: #b03030;
+    -fx-font-size: 11px;
+}
+
+.slot-tesoro {
+    -fx-text-fill: #7a7090;
+    -fx-font-size: 10px;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+/* ─── Log Area ──────────────────────────────────────────────────── */
+.log-area {
+    -fx-control-inner-background: #11111c;
+    -fx-text-fill: #9a9060;
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+    -fx-border-color: #2e2e45;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+.log-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* ─── Mano del Giocatore (bottom) ───────────────────────────────── */
+.carta-mano {
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #3e3e5e;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+    -fx-pref-width: 130;
+    -fx-pref-height: 120;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 8, 0, 0, 4);
+}
+.carta-mano:hover {
+    -fx-background-color: #252538;
+    -fx-border-color: #c9a84c;
+    -fx-translate-y: -4;
+    -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.4), 14, 0, 0, 0);
+}
+
+/* Carta selezionata dalla mano */
+.carta-mano-selezionata {
+    -fx-border-color: #3ab5a0;
+    -fx-border-width: 2;
+    -fx-translate-y: -8;
+    -fx-effect: dropshadow(gaussian, rgba(58,181,160,0.6), 16, 0, 0, 0);
+}
+
+.carta-nome {
+    -fx-text-fill: #e8e0d0;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+.carta-icona {
+    -fx-font-size: 22px;
+}
+
+.carta-stat {
+    -fx-text-fill: #7a7090;
+    -fx-font-size: 10px;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+/* ─── Pannello Villaggio (right) ────────────────────────────────── */
+.villaggio-panel {
+    -fx-background-color: #12121c;
+    -fx-border-color: #2e2e45;
+    -fx-border-width: 0 0 0 1;
+}
+
+.scroll-eroi {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.scroll-eroi > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Card per ogni Eroe nel Villaggio */
+.eroe-card {
+    -fx-background-color: #1c1c2c;
+    -fx-border-color: #2e2e45;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 10;
+    -fx-spacing: 4;
+}
+
+.eroe-nome {
+    -fx-text-fill: #e8e0d0;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.eroe-icona {
+    -fx-font-size: 20px;
+}
+
+.eroe-stat {
+    -fx-text-fill: #7a7090;
+    -fx-font-size: 10px;
+}
+
+.eroe-interesse {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 10px;
+}
+
+/* ─── Dialog Vittoria / Sconfitta ───────────────────────────────── */
+.dialog-vittoria {
+    -fx-background-color: #0d200d;
+}
+.dialog-sconfitta {
+    -fx-background-color: #200d0d;
+}
+
+/* ─── Scrollbar globale dark ────────────────────────────────────── */
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track {
+    -fx-background-color: #16161f;
+}
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #3e3e5e;
+    -fx-background-radius: 4;
+}
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #5e5e8e;
+}
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #16161f;
+}
