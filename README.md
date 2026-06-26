@@ -8,7 +8,7 @@ Il progetto è focalizzato sulla modularità del codice e sulla separazione tra 
 ## 🚀 Come eseguire il progetto
 
 ### Prerequisiti
-- Java 21 o superiore
+- Java 25 (LTS)
 - Gradle 8.x+
 
 ### Istruzioni
