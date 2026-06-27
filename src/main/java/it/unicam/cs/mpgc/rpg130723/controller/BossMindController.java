@@ -359,7 +359,6 @@ public class BossMindController implements Initializable {
         return lista;
     }
 
-    /** Mappa TipoTesoro → immagine corrispondente. */
     private Image imgTesoro(TipoTesoro tipo) {
         return switch (tipo) {
             case SPADA           -> imgSpada;
