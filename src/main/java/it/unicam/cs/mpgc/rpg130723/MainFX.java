@@ -12,7 +12,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        URL fxmlUrl = getClass().getResource("/it/unicam/cs/mpgc/rpg130723/view/bossmind.fxml");
+        URL fxmlUrl = getClass().getResource("/view/bossmind.fxml");
 
         if (fxmlUrl == null) {
             throw new IllegalStateException("FXML non trovato nel classpath!");

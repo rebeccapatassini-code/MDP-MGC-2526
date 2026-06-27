@@ -3,13 +3,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.unicam.cs.mpgc.rpg130723.view.controller.BossMindController"
+            fx:controller="it.unicam.cs.mpgc.rpg130723.controller.BossMindController"
             styleClass="root-pane"
-            stylesheets="@../../../../../../../resources/css/dark-fantasy.css">
+            stylesheets="@../css/dark-fantasy.css">
 
     <!-- ═══════════════════════════════════════════════════════════
          TOP: Barra di stato (HP Boss, Anime, Ferite)
