@@ -14,7 +14,7 @@ Il progetto è focalizzato sulla modularità del codice e sulla separazione tra 
 ### Istruzioni
 
 ```bash
-git clone <url-del-repository>
+git clone https://github.com/rebeccapatassini-code/MDP-MGC-2526.git
 cd BossMind
 ```
 
