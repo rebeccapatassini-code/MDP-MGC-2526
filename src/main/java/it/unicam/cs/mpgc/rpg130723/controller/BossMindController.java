@@ -30,7 +30,6 @@ import java.util.*;
  */
 public class BossMindController implements Initializable {
 
-    // FXML: HUD
     @FXML private Label       labelAnime;
     @FXML private Label       labelFerite;
     @FXML private ProgressBar progressAnime;
@@ -39,45 +38,37 @@ public class BossMindController implements Initializable {
     @FXML private Button      btnFineTurno;
     @FXML private Label       labelSlotDungeon;
 
-    // FXML: Slot dungeon
     @FXML private VBox slot0, slot1, slot2, slot3, slot4;
     @FXML private Label slotNome0, slotNome1, slotNome2, slotNome3, slotNome4;
     @FXML private Label slotTipo0, slotTipo1, slotTipo2, slotTipo3, slotTipo4;
     @FXML private Label slotDanno0, slotDanno1, slotDanno2, slotDanno3, slotDanno4;
     @FXML private Label slotTesoro0, slotTesoro1, slotTesoro2, slotTesoro3, slotTesoro4;
 
-    // FXML: Mano e Villaggio
     @FXML private HBox     manoBox;
     @FXML private Label    labelManoCount;
     @FXML private VBox     villaggioBox;
     @FXML private TextArea areaLog;
 
-    // Properties osservabili
     private final IntegerProperty animeProperty  = new SimpleIntegerProperty(0);
     private final IntegerProperty feriteProperty = new SimpleIntegerProperty(0);
     private final StringProperty  faseProperty   = new SimpleStringProperty("—");
 
-    // Model / Engine
     private GameEngine   engine;
     private Boss         boss;
     private Dungeon      dungeon;
     private List<Stanza> tutteStanze;
     private List<Eroe>   tuttiEroi;
 
-    // Stato selezione carta
     private int  cartaSelezionataIndex = -1;
     private VBox cartaSelezionataNode  = null;
 
-    // Array paralleli ai 5 slot FXML
     private VBox[]  slotNodes;
     private Label[] slotNomi, slotTipi, slotDanni, slotTesori;
 
-    // Cache immagini — caricate una volta sola (OCP: aggiungere immagini = aggiungere file)
     private Image imgMostro, imgTrappola, imgSpade,
             imgSpada, imgLibro, imgMonete, imgReliquia,
             imgAnime, imgFerite;
 
-    // ── Initializable ──────────────────────────────────────────────
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,10 +87,7 @@ public class BossMindController implements Initializable {
         slotTesori = new Label[] { slotTesoro0, slotTesoro1, slotTesoro2, slotTesoro3, slotTesoro4 };
     }
 
-    /**
-     * Carica tutte le immagini una sola volta all'avvio.
-     * Se un file manca, l'ImageView resterà vuoto senza crashare (Fail-Safe).
-     */
+
     private void caricaImmagini() {
         imgMostro   = caricaPng("Mostro.png");
         imgTrappola = caricaPng("Trappola.png");
@@ -112,13 +100,11 @@ public class BossMindController implements Initializable {
         imgFerite   = caricaPng("Ferite.png");
     }
 
-    /** Caricamento sicuro: restituisce null se il file non esiste. */
     private Image caricaPng(String nomeFile) {
         var stream = getClass().getResourceAsStream("/images/" + nomeFile);
         return stream != null ? new Image(stream) : null;
     }
 
-    /** Crea un ImageView con dimensione fissa e ratio preservato. */
     private ImageView iconaView(Image img, int size) {
         ImageView iv = new ImageView();
         if (img != null) iv.setImage(img);
@@ -127,10 +113,7 @@ public class BossMindController implements Initializable {
         return iv;
     }
 
-    /**
-     * Property Binding: collega le proprietà alle Label e ProgressBar.
-     * Ogni set() sulle properties aggiorna la View in automatico.
-     */
+
     private void collegaBinding() {
         labelAnime.textProperty().bind(animeProperty.asString("%d / 10"));
         labelFerite.textProperty().bind(feriteProperty.asString("%d / 5"));
@@ -139,13 +122,11 @@ public class BossMindController implements Initializable {
         labelFase.textProperty().bind(faseProperty);
     }
 
-    /** Sostituisce le emoji dell'HUD con le immagini PNG. */
     private void impostaIconeHUD() {
         labelAnime.setGraphic(iconaView(imgAnime, 22));
         labelFerite.setGraphic(iconaView(imgFerite, 22));
     }
 
-    // ── Setup partita ───────────────────────────────────────────────
 
     private void inizializzaPartita() {
         JsonProvider loader = new JsonProvider();
@@ -168,7 +149,6 @@ public class BossMindController implements Initializable {
                 .count() >= 2;
     }
 
-    // ── Gestione turno ──────────────────────────────────────────────
 
     private void avviaNuovoTurno() {
         faseProperty.set("COSTRUZIONE");
@@ -231,7 +211,6 @@ public class BossMindController implements Initializable {
         else                          avviaNuovoTurno();
     }
 
-    // ── Aggiornamento View ──────────────────────────────────────────
 
     private void aggiornaHUD() {
         animeProperty.set(boss.getAnime());
@@ -247,16 +226,13 @@ public class BossMindController implements Initializable {
                 Stanza s = stanze.get(i);
                 slotNomi[i].setText(s.getNome());
 
-                // Icona tipo stanza
                 Image imgTipo = s instanceof StanzaMostro ? imgMostro : imgTrappola;
                 slotTipi[i].setText("");
                 slotTipi[i].setGraphic(iconaView(imgTipo, 36));
 
-                // Icona danno
                 slotDanni[i].setText(" " + s.getValoreDanno());
                 slotDanni[i].setGraphic(iconaView(imgSpade, 16));
 
-                // Icona tesoro
                 slotTesori[i].setText(" " + tesoro(s.getTesoroFornito().name()));
                 slotTesori[i].setGraphic(iconaView(imgTesoro(s.getTesoroFornito()), 16));
 
@@ -285,14 +261,12 @@ public class BossMindController implements Initializable {
     }
 
     private VBox cartaManoNode(Stanza stanza, int index) {
-        // Immagine tipo stanza
         Image imgTipo = stanza instanceof StanzaMostro ? imgMostro : imgTrappola;
         ImageView icona = iconaView(imgTipo, 36);
 
         Label nome = new Label(stanza.getNome());
         nome.getStyleClass().add("carta-nome");
 
-        // Stat con icone piccole
         Label danno = new Label(" " + stanza.getValoreDanno());
         danno.setGraphic(iconaView(imgSpade, 14));
         danno.getStyleClass().add("carta-stat");
@@ -355,8 +329,6 @@ public class BossMindController implements Initializable {
         return card;
     }
 
-    // ── Fine partita ────────────────────────────────────────────────
-
     private void mostraFinePartita() {
         btnFineTurno.setDisable(true);
         faseProperty.set("FINE");
@@ -371,8 +343,6 @@ public class BossMindController implements Initializable {
         alert.showAndWait();
         javafx.application.Platform.exit();
     }
-
-    // ── Utilità ─────────────────────────────────────────────────────
 
     private List<Stanza> pescaCarteCasuali(int n) {
         Collections.shuffle(tutteStanze);
