@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130723.view.controller;
+package it.unicam.cs.mpgc.rpg130723.controller;
 
 import it.unicam.cs.mpgc.rpg130723.logic.GameEngine;
 import it.unicam.cs.mpgc.rpg130723.model.Dungeon;
