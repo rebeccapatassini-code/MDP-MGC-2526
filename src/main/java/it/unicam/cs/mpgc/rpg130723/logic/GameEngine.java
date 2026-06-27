@@ -42,10 +42,7 @@ public class GameEngine {
         this.mano = new ArrayList<>();
     }
 
-    /**
-     * Fase 1: aggiunge 1 carta casuale alla mano e 2 eroi casuali al villaggio.
-     * La carta pescata viene fornita dal JsonProvider (OCP).
-     */
+
     public void faseInizioTurno(List<Stanza> cartePescate, List<Eroe> nuoviEroi) {
         if (cartePescate == null || cartePescate.isEmpty())
             throw new IllegalArgumentException("Le carte pescate non possono essere nulle.");
@@ -58,10 +55,7 @@ public class GameEngine {
         villaggio.addAll(nuoviEroi);
     }
 
-    /**
-     * Fase 2: il giocatore sceglie una carta dalla mano e la aggiunge al dungeon.
-     * Le carte non scelte vengono scartate a fine turno.
-     */
+
     public void faseCostruzione(int indiceCarta) {
         if (indiceCarta < 0 || indiceCarta >= mano.size())
             throw new IllegalArgumentException("Indice carta non valido: " + indiceCarta);
@@ -71,10 +65,7 @@ public class GameEngine {
         // NON svuotiamo la mano! Le altre carte restano per il turno dopo
     }
 
-    /**
-     * Fase 3: controlla quali eroi vengono attratti dal dungeon.
-     * Gli eroi non attratti vengono scartati.
-     */
+
     public List<Eroe> faseRichiamo() {
         List<Eroe> attratti = new ArrayList<>();
         for (Eroe eroe : villaggio) {
@@ -86,11 +77,7 @@ public class GameEngine {
         return attratti;
     }
 
-    /**
-     * Fase 4: gli eroi attratti attraversano il dungeon.
-     * Se l'eroe muore → +1 Anima al Boss.
-     * Se l'eroe sopravvive → +1 Ferita al Boss.
-     */
+
     public void faseAvventura(List<Eroe> eroi) {
         for (Eroe eroe : eroi) {
             context.setEroeCorrente(eroe);

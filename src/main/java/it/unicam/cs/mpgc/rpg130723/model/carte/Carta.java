@@ -24,7 +24,4 @@ public abstract class Carta {
         return nome;
     }
 
-    public String getDescrizione() {
-        return descrizione;
-    }
 }

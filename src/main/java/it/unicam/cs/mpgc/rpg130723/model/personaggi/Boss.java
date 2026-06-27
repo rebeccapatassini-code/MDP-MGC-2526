@@ -36,10 +36,6 @@ public class Boss extends Carta implements Danneggiabile {
         subisciFerita();
     }
 
-    public int getPuntiEsperienza() {
-        return puntiEsperienza;
-    }
-
     public int getAnime() {
         return anime;
     }

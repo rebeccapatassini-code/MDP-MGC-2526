@@ -26,12 +26,10 @@ class BattleTest {
 
     @BeforeEach
     void setup() {
-        // Nota: Verifica se il costruttore di Eroe e Boss nel tuo codice accetta questi parametri
         eroe = new Eroe("Guerriero", 4, TipoTesoro.SPADA, 1);
         boss = new Boss("DarkLord", "Il boss oscuro", 10);
         dungeon = new Dungeon();
 
-        // Usiamo il costruttore reale del tuo GameContext
         context = new GameContext(boss, dungeon);
     }
 
