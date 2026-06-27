@@ -22,7 +22,6 @@ application {
     mainClass = 'it.unicam.cs.mpgc.rpg130723.MainFX'
 }
 
-// Dice a Gradle di includere anche i file non-Java (fxml, css) da src/main/java
 sourceSets {
     main {
         resources {

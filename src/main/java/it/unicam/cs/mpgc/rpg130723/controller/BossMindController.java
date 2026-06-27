@@ -6,6 +6,7 @@ import it.unicam.cs.mpgc.rpg130723.model.carte.Stanza;
 import it.unicam.cs.mpgc.rpg130723.model.carte.StanzaMostro;
 import it.unicam.cs.mpgc.rpg130723.model.personaggi.Boss;
 import it.unicam.cs.mpgc.rpg130723.model.personaggi.Eroe;
+import it.unicam.cs.mpgc.rpg130723.model.enums.TipoTesoro;
 import it.unicam.cs.mpgc.rpg130723.persistence.JsonProvider;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,6 +15,8 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -22,11 +25,8 @@ import java.util.*;
 
 /**
  * Controller principale di BossMind.
- *
- * Responsabilità:
- *  - collegare i dati del Model agli elementi FXML via Property Binding
- *  - reagire ai click dell'utente e delegare la logica al GameEngine
- *  - aggiornare la Vista dopo ogni azione
+ * Responsabilità: collegare Model agli elementi FXML via Property Binding,
+ * reagire ai click e delegare la logica al GameEngine, aggiornare la Vista.
  */
 public class BossMindController implements Initializable {
 
@@ -47,12 +47,12 @@ public class BossMindController implements Initializable {
     @FXML private Label slotTesoro0, slotTesoro1, slotTesoro2, slotTesoro3, slotTesoro4;
 
     // FXML: Mano e Villaggio
-    @FXML private HBox  manoBox;
-    @FXML private Label labelManoCount;
-    @FXML private VBox  villaggioBox;
+    @FXML private HBox     manoBox;
+    @FXML private Label    labelManoCount;
+    @FXML private VBox     villaggioBox;
     @FXML private TextArea areaLog;
 
-    // Properties osservabili (collegate alla View via binding)
+    // Properties osservabili
     private final IntegerProperty animeProperty  = new SimpleIntegerProperty(0);
     private final IntegerProperty feriteProperty = new SimpleIntegerProperty(0);
     private final StringProperty  faseProperty   = new SimpleStringProperty("—");
@@ -72,12 +72,19 @@ public class BossMindController implements Initializable {
     private VBox[]  slotNodes;
     private Label[] slotNomi, slotTipi, slotDanni, slotTesori;
 
-    // Initializable
+    // Cache immagini — caricate una volta sola (OCP: aggiungere immagini = aggiungere file)
+    private Image imgMostro, imgTrappola, imgSpade,
+            imgSpada, imgLibro, imgMonete, imgReliquia,
+            imgAnime, imgFerite;
+
+    // ── Initializable ──────────────────────────────────────────────
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         raggruppaSlotInArray();
+        caricaImmagini();
         collegaBinding();
+        impostaIconeHUD();
         inizializzaPartita();
     }
 
@@ -90,8 +97,39 @@ public class BossMindController implements Initializable {
     }
 
     /**
-     * Property Binding: collega le proprietà osservabili agli elementi FXML.
-     * Da questo momento ogni set() sulle properties aggiorna la View in automatico.
+     * Carica tutte le immagini una sola volta all'avvio.
+     * Se un file manca, l'ImageView resterà vuoto senza crashare (Fail-Safe).
+     */
+    private void caricaImmagini() {
+        imgMostro   = caricaPng("Mostro.png");
+        imgTrappola = caricaPng("Trappola.png");
+        imgSpade    = caricaPng("Spade.png");
+        imgSpada    = caricaPng("Spada.png");
+        imgLibro    = caricaPng("LibroMagico.png");
+        imgMonete   = caricaPng("Monete.png");
+        imgReliquia = caricaPng("Reliquia.png");
+        imgAnime    = caricaPng("Anime.png");
+        imgFerite   = caricaPng("Ferite.png");
+    }
+
+    /** Caricamento sicuro: restituisce null se il file non esiste. */
+    private Image caricaPng(String nomeFile) {
+        var stream = getClass().getResourceAsStream("/images/" + nomeFile);
+        return stream != null ? new Image(stream) : null;
+    }
+
+    /** Crea un ImageView con dimensione fissa e ratio preservato. */
+    private ImageView iconaView(Image img, int size) {
+        ImageView iv = new ImageView();
+        if (img != null) iv.setImage(img);
+        iv.setFitWidth(size);
+        iv.setPreserveRatio(true);
+        return iv;
+    }
+
+    /**
+     * Property Binding: collega le proprietà alle Label e ProgressBar.
+     * Ogni set() sulle properties aggiorna la View in automatico.
      */
     private void collegaBinding() {
         labelAnime.textProperty().bind(animeProperty.asString("%d / 10"));
@@ -101,7 +139,13 @@ public class BossMindController implements Initializable {
         labelFase.textProperty().bind(faseProperty);
     }
 
-    // Setup partita
+    /** Sostituisce le emoji dell'HUD con le immagini PNG. */
+    private void impostaIconeHUD() {
+        labelAnime.setGraphic(iconaView(imgAnime, 22));
+        labelFerite.setGraphic(iconaView(imgFerite, 22));
+    }
+
+    // ── Setup partita ───────────────────────────────────────────────
 
     private void inizializzaPartita() {
         JsonProvider loader = new JsonProvider();
@@ -110,7 +154,7 @@ public class BossMindController implements Initializable {
         tutteStanze.addAll(loader.caricaStanzeTrappola());
         tuttiEroi = loader.caricaEroi();
 
-        boss   = new Boss("DarkLord", "Il signore oscuro", 10);
+        boss    = new Boss("DarkLord", "Il signore oscuro", 10);
         dungeon = new Dungeon();
         engine  = new GameEngine(boss, dungeon, this::valutaAttrazione);
 
@@ -118,23 +162,20 @@ public class BossMindController implements Initializable {
         avviaNuovoTurno();
     }
 
-    /** Logica di attrazione: un eroe entra se almeno 2 stanze mostrano il suo tesoro. */
     private boolean valutaAttrazione(Dungeon d, Eroe e) {
         return d.getStanze().stream()
                 .filter(s -> s.getTesoroFornito() == e.getInteresse())
                 .count() >= 2;
     }
 
-    // Gestione turno
+    // ── Gestione turno ──────────────────────────────────────────────
 
     private void avviaNuovoTurno() {
         faseProperty.set("COSTRUZIONE");
         log("─── NUOVO TURNO ───");
-
         List<Stanza> pescate   = pescaCarteCasuali(3);
         List<Eroe>   nuoviEroi = pescaEroiCasuali(2);
         engine.faseInizioTurno(pescate, nuoviEroi);
-
         aggiornaMano();
         aggiornaVillaggio(nuoviEroi);
         aggiornaHUD();
@@ -163,10 +204,8 @@ public class BossMindController implements Initializable {
     private void onSlotDungeonClicked(javafx.scene.input.MouseEvent event) {
         if (!"SOSTITUZIONE".equals(faseProperty.get())) return;
         if (cartaSelezionataIndex < 0) { log("⚠ Seleziona prima una carta!"); return; }
-
         int indice = Integer.parseInt(((VBox) event.getSource()).getUserData().toString());
         if (indice >= dungeon.getNumeroStanze()) { log("⚠ Slot vuoto, scegline uno occupato."); return; }
-
         engine.faseSostituzione(cartaSelezionataIndex, indice);
         log("♻ Stanza sostituita nello slot " + (indice + 1) + ".");
         eseguiRichiamoEAvventura();
@@ -175,7 +214,6 @@ public class BossMindController implements Initializable {
     private void eseguiRichiamoEAvventura() {
         faseProperty.set("RICHIAMO");
         List<Eroe> attratti = engine.faseRichiamo();
-
         if (attratti.isEmpty()) {
             log("🏘 Nessun eroe attirato.");
         } else {
@@ -185,19 +223,16 @@ public class BossMindController implements Initializable {
                     ? "  💀 " + e.getNome() + " sopravvissuto → +1 Ferita"
                     : "  💎 " + e.getNome() + " sconfitto → +1 Anima"));
         }
-
         aggiornaDungeon();
         aggiornaMano();
         aggiornaHUD();
         aggiornaVillaggio(Collections.emptyList());
-
         if (engine.isPartitaFinita()) mostraFinePartita();
         else                          avviaNuovoTurno();
     }
 
-    // Aggiornamento View
+    // ── Aggiornamento View ──────────────────────────────────────────
 
-    /** Aggiorna le Properties: il binding propaga automaticamente alle Label e ProgressBar. */
     private void aggiornaHUD() {
         animeProperty.set(boss.getAnime());
         feriteProperty.set(boss.getFerite());
@@ -211,14 +246,30 @@ public class BossMindController implements Initializable {
             if (i < stanze.size()) {
                 Stanza s = stanze.get(i);
                 slotNomi[i].setText(s.getNome());
-                slotTipi[i].setText(emojiStanza(s));
-                slotDanni[i].setText("⚔ Danno: " + s.getValoreDanno());
-                slotTesori[i].setText("💰 " + tesoro(s.getTesoroFornito().name()));
+
+                // Icona tipo stanza
+                Image imgTipo = s instanceof StanzaMostro ? imgMostro : imgTrappola;
+                slotTipi[i].setText("");
+                slotTipi[i].setGraphic(iconaView(imgTipo, 36));
+
+                // Icona danno
+                slotDanni[i].setText(" " + s.getValoreDanno());
+                slotDanni[i].setGraphic(iconaView(imgSpade, 16));
+
+                // Icona tesoro
+                slotTesori[i].setText(" " + tesoro(s.getTesoroFornito().name()));
+                slotTesori[i].setGraphic(iconaView(imgTesoro(s.getTesoroFornito()), 16));
+
                 slotNodes[i].getStyleClass().add(
                         s instanceof StanzaMostro ? "dungeon-slot-mostro" : "dungeon-slot-trappola");
             } else {
                 slotNomi[i].setText("— vuoto —");
-                slotTipi[i].setText(""); slotDanni[i].setText(""); slotTesori[i].setText("");
+                slotTipi[i].setText("");
+                slotTipi[i].setGraphic(null);
+                slotDanni[i].setText("");
+                slotDanni[i].setGraphic(null);
+                slotTesori[i].setText("");
+                slotTesori[i].setGraphic(null);
             }
         }
         labelSlotDungeon.setText("(" + stanze.size() + " / 5 stanze)");
@@ -234,12 +285,23 @@ public class BossMindController implements Initializable {
     }
 
     private VBox cartaManoNode(Stanza stanza, int index) {
-        Label icona = new Label(emojiStanza(stanza));  icona.getStyleClass().add("carta-icona");
-        Label nome  = new Label(stanza.getNome());      nome.getStyleClass().add("carta-nome");
-        Label stat  = new Label("⚔ " + stanza.getValoreDanno() + "  💰 " + tesoro(stanza.getTesoroFornito().name()));
-        stat.getStyleClass().add("carta-stat");
+        // Immagine tipo stanza
+        Image imgTipo = stanza instanceof StanzaMostro ? imgMostro : imgTrappola;
+        ImageView icona = iconaView(imgTipo, 36);
 
-        VBox card = new VBox(6, icona, nome, stat);
+        Label nome = new Label(stanza.getNome());
+        nome.getStyleClass().add("carta-nome");
+
+        // Stat con icone piccole
+        Label danno = new Label(" " + stanza.getValoreDanno());
+        danno.setGraphic(iconaView(imgSpade, 14));
+        danno.getStyleClass().add("carta-stat");
+
+        Label tesoro = new Label(" " + tesoro(stanza.getTesoroFornito().name()));
+        tesoro.setGraphic(iconaView(imgTesoro(stanza.getTesoroFornito()), 14));
+        tesoro.getStyleClass().add("carta-stat");
+
+        VBox card = new VBox(6, icona, nome, danno, tesoro);
         card.getStyleClass().add("carta-mano");
         card.setOnMouseClicked(e -> selezionaCarta(card, index));
         return card;
@@ -248,7 +310,6 @@ public class BossMindController implements Initializable {
     private void selezionaCarta(VBox card, int index) {
         if (cartaSelezionataNode != null)
             cartaSelezionataNode.getStyleClass().remove("carta-mano-selezionata");
-
         if (cartaSelezionataIndex == index) {
             deselezionaCarta();
         } else {
@@ -267,7 +328,8 @@ public class BossMindController implements Initializable {
     private void aggiornaVillaggio(List<Eroe> eroi) {
         villaggioBox.getChildren().clear();
         if (eroi.isEmpty()) {
-            Label l = new Label("Nessun eroe"); l.getStyleClass().add("section-subtitle");
+            Label l = new Label("Nessun eroe");
+            l.getStyleClass().add("section-subtitle");
             villaggioBox.getChildren().add(l);
             return;
         }
@@ -275,24 +337,31 @@ public class BossMindController implements Initializable {
     }
 
     private VBox eroeCardNode(Eroe eroe) {
-        Label icona     = new Label(emojiEroe(eroe));       icona.getStyleClass().add("eroe-icona");
-        Label nome      = new Label(eroe.getNome());         nome.getStyleClass().add("eroe-nome");
-        Label hp        = new Label("❤ HP: " + eroe.getPuntiVita()); hp.getStyleClass().add("eroe-stat");
-        Label interesse = new Label("🔎 " + tesoro(eroe.getInteresse().name())); interesse.getStyleClass().add("eroe-interesse");
+        ImageView icona = iconaView(imgTesoro(eroe.getInteresse()), 32);
+
+        Label nome = new Label(eroe.getNome());
+        nome.getStyleClass().add("eroe-nome");
+
+        Label hp = new Label(" HP: " + eroe.getPuntiVita());
+        hp.setGraphic(iconaView(imgFerite, 14));
+        hp.getStyleClass().add("eroe-stat");
+
+        Label interesse = new Label(" " + tesoro(eroe.getInteresse().name()));
+        interesse.setGraphic(iconaView(imgTesoro(eroe.getInteresse()), 14));
+        interesse.getStyleClass().add("eroe-interesse");
 
         VBox card = new VBox(4, icona, nome, hp, interesse);
         card.getStyleClass().add("eroe-card");
         return card;
     }
 
-    // Fine partita
+    // ── Fine partita ────────────────────────────────────────────────
 
     private void mostraFinePartita() {
         btnFineTurno.setDisable(true);
         faseProperty.set("FINE");
         boolean vittoria = boss.haVinto();
         log(vittoria ? "══ HAI VINTO! ══" : "══ HAI PERSO! ══");
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("BossMind");
         alert.setHeaderText(vittoria ? "🎉 VITTORIA!" : "💀 SCONFITTA");
@@ -303,7 +372,7 @@ public class BossMindController implements Initializable {
         javafx.application.Platform.exit();
     }
 
-    // Utilità
+    // ── Utilità ─────────────────────────────────────────────────────
 
     private List<Stanza> pescaCarteCasuali(int n) {
         Collections.shuffle(tutteStanze);
@@ -320,18 +389,13 @@ public class BossMindController implements Initializable {
         return lista;
     }
 
-    private void log(String msg) { areaLog.appendText(msg + "\n"); }
-
-    private String emojiStanza(Stanza s) {
-        return s instanceof StanzaMostro ? "👹" : "⚙";
-    }
-
-    private String emojiEroe(Eroe e) {
-        return switch (e.getInteresse()) {
-            case SPADA           -> "⚔";
-            case LIBRO_MAGICO    -> "🧙";
-            case SACCO_DI_MONETE -> "🗡";
-            case RELIQUIA        -> "✝";
+    /** Mappa TipoTesoro → immagine corrispondente. */
+    private Image imgTesoro(TipoTesoro tipo) {
+        return switch (tipo) {
+            case SPADA           -> imgSpada;
+            case LIBRO_MAGICO    -> imgLibro;
+            case SACCO_DI_MONETE -> imgMonete;
+            case RELIQUIA        -> imgReliquia;
         };
     }
 
@@ -344,4 +408,6 @@ public class BossMindController implements Initializable {
             default                -> enumName;
         };
     }
+
+    private void log(String msg) { areaLog.appendText(msg + "\n"); }
 }
