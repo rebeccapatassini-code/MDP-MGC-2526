@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class BossMindController implements Initializable {
 
-    // ── FXML: HUD ──────────────────────────────────────────────────
+    // FXML: HUD
     @FXML private Label       labelAnime;
     @FXML private Label       labelFerite;
     @FXML private ProgressBar progressAnime;
@@ -39,42 +39,40 @@ public class BossMindController implements Initializable {
     @FXML private Button      btnFineTurno;
     @FXML private Label       labelSlotDungeon;
 
-    // ── FXML: Slot dungeon ─────────────────────────────────────────
+    // FXML: Slot dungeon
     @FXML private VBox slot0, slot1, slot2, slot3, slot4;
     @FXML private Label slotNome0, slotNome1, slotNome2, slotNome3, slotNome4;
     @FXML private Label slotTipo0, slotTipo1, slotTipo2, slotTipo3, slotTipo4;
     @FXML private Label slotDanno0, slotDanno1, slotDanno2, slotDanno3, slotDanno4;
     @FXML private Label slotTesoro0, slotTesoro1, slotTesoro2, slotTesoro3, slotTesoro4;
 
-    // ── FXML: Mano e Villaggio ─────────────────────────────────────
+    // FXML: Mano e Villaggio
     @FXML private HBox  manoBox;
     @FXML private Label labelManoCount;
     @FXML private VBox  villaggioBox;
     @FXML private TextArea areaLog;
 
-    // ── Properties osservabili (collegate alla View via binding) ───
+    // Properties osservabili (collegate alla View via binding)
     private final IntegerProperty animeProperty  = new SimpleIntegerProperty(0);
     private final IntegerProperty feriteProperty = new SimpleIntegerProperty(0);
     private final StringProperty  faseProperty   = new SimpleStringProperty("—");
 
-    // ── Model / Engine ─────────────────────────────────────────────
+    // Model / Engine
     private GameEngine   engine;
     private Boss         boss;
     private Dungeon      dungeon;
     private List<Stanza> tutteStanze;
     private List<Eroe>   tuttiEroi;
 
-    // ── Stato selezione carta ──────────────────────────────────────
+    // Stato selezione carta
     private int  cartaSelezionataIndex = -1;
     private VBox cartaSelezionataNode  = null;
 
-    // ── Array paralleli ai 5 slot FXML ────────────────────────────
+    // Array paralleli ai 5 slot FXML
     private VBox[]  slotNodes;
     private Label[] slotNomi, slotTipi, slotDanni, slotTesori;
 
-    // ══════════════════════════════════════════════════════════════
     // Initializable
-    // ══════════════════════════════════════════════════════════════
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,9 +101,7 @@ public class BossMindController implements Initializable {
         labelFase.textProperty().bind(faseProperty);
     }
 
-    // ══════════════════════════════════════════════════════════════
     // Setup partita
-    // ══════════════════════════════════════════════════════════════
 
     private void inizializzaPartita() {
         JsonProvider loader = new JsonProvider();
@@ -129,9 +125,7 @@ public class BossMindController implements Initializable {
                 .count() >= 2;
     }
 
-    // ══════════════════════════════════════════════════════════════
     // Gestione turno
-    // ══════════════════════════════════════════════════════════════
 
     private void avviaNuovoTurno() {
         faseProperty.set("COSTRUZIONE");
@@ -201,9 +195,7 @@ public class BossMindController implements Initializable {
         else                          avviaNuovoTurno();
     }
 
-    // ══════════════════════════════════════════════════════════════
     // Aggiornamento View
-    // ══════════════════════════════════════════════════════════════
 
     /** Aggiorna le Properties: il binding propaga automaticamente alle Label e ProgressBar. */
     private void aggiornaHUD() {
